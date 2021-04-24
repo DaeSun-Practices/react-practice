@@ -3,6 +3,7 @@ import './App.css';
 import Subject from './Components/Subject'
 import TOC from './Components/TOC'
 import Content from './Components/Content'
+import Control from './Components/Control'
 
 //constructor라는 함수가 먼저 실행되어 초기화를 한다
 // 상위 component의 값을 하위 componenet에게 전달할 때는 state를 사용한다.
@@ -13,6 +14,7 @@ class App extends Component{
     super(props);
     this.state = {
       mode: "read",
+      selected_content_id: 2,
 
       subject: {title:"React", sub:"For UI"},
 
@@ -28,7 +30,6 @@ class App extends Component{
   }
 
 
-
   render(){
     let appTitle, appDesc = null;
 
@@ -37,8 +38,8 @@ class App extends Component{
       appDesc = this.state.welcome.desc;
     }
     else if (this.state.mode === "read"){
-      appTitle = this.state.contents[0].title;
-      appDesc = this.state.contents[0].desc;
+      appTitle = this.state.contents[this.state.selected_content_id].title;
+      appDesc = this.state.contents[this.state.selected_content_id].desc;
     }
 
 
@@ -55,9 +56,26 @@ class App extends Component{
         > 
         
         </Subject>
-        <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>
 
-        <TOC data = {this.state.contents}></TOC>
+        <TOC 
+          data = {this.state.contents}
+          
+          onChangePage={function(content_id){
+            this.setState({mode:'read', selected_content_id:Number(content_id)});
+            
+          }.bind(this)}
+          >
+        </TOC>
+        
+        <Control
+          onChangeMode={function(mode){
+            this.setState({mode:mode});
+          }.bind(this)}
+        >
+
+
+        </Control>
+        
 
         <Content title={appTitle} content={appDesc}> </Content>
       </div>
