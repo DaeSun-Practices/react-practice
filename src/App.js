@@ -12,7 +12,7 @@ class App extends Component{
   constructor(props){
     super(props);
     this.state = {
-      mode: "welcome",
+      mode: "read",
 
       subject: {title:"React", sub:"For UI"},
 
@@ -26,6 +26,8 @@ class App extends Component{
 
     }
   }
+
+
 
   render(){
     let appTitle, appDesc = null;
@@ -43,7 +45,16 @@ class App extends Component{
 
     return (
       <div className="App">
-        <Subject title="WEB" sub="world wide web!"></Subject>
+        <Subject 
+          title="WEB" 
+          sub="world wide web!" 
+
+          onChangePage={function(){
+            this.setState({mode:'welcome'});
+          }.bind(this)}
+        > 
+        
+        </Subject>
         <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>
 
         <TOC data = {this.state.contents}></TOC>
